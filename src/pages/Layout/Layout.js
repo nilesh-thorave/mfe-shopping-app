@@ -1,12 +1,16 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "antd";
-import Auth from "../Auth";
-import Dashboard from "../Dashboard";
-import OrderManagement from "../OrderManagement";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
+import PageLoader from "../../components/PageLoader";
 
 import { SiteContent } from "./Layout.style";
+
+const DashboardLazy = lazy(() => import("../Dashboard"));
+const AuthLazy = lazy(() => import("../Auth"));
+const OrderManagementLazy = lazy(() => import("../OrderManagement"));
+
 const { Content } = Layout;
 
 function MyLayout() {
@@ -16,19 +20,21 @@ function MyLayout() {
         <Header />
         <Content style={{ padding: "50px 50px 0" }}>
           <SiteContent>
-            <Routes>
-              <Route path="sign-in" element={<Auth />} />
-              <Route path="home" element={<Dashboard />} />
-              <Route path="my-cart" element={<OrderManagement />} />
-              <Route
-                path="*"
-                element={
-                  <main style={{ padding: "1rem" }}>
-                    <p>There's nothing here!</p>
-                  </main>
-                }
-              />
-            </Routes>
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                <Route path="sign-in" element={<AuthLazy />} />
+                <Route path="home" element={<DashboardLazy />} />
+                <Route path="my-cart" element={<OrderManagementLazy />} />
+                <Route
+                  path="*"
+                  element={
+                    <main style={{ padding: "1rem" }}>
+                      <p>There's nothing here!</p>
+                    </main>
+                  }
+                />
+              </Routes>
+            </Suspense>
           </SiteContent>
         </Content>
         <Footer />
