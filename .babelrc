@@ -2,5 +2,14 @@
   "presets": [
     "@babel/preset-env",
     ["@babel/preset-react", { "runtime": "automatic" }]
+  ],
+  "plugins": [
+    [
+      "babel-plugin-styled-components",
+      {
+        "pure": true,
+        "namespace": "react-webpack-boilerplate"
+      }
+    ]
   ]
 }
