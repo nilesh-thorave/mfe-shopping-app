@@ -1,10 +1,10 @@
-import React from "react";
+import Layout from "./pages/Layout";
 
 const App = () => {
   return (
-    <div>
-      <h1 className="h1">React Webpack 5 boilerplate</h1>
-    </div>
+    <section>
+      <Layout />
+    </section>
   );
 };
 
