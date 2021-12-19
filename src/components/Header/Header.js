@@ -1,4 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation, NavLink } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import { Logo } from "./Header.style";
 const { Header } = Layout;
@@ -7,10 +8,6 @@ const MENU_ITEMS = [
   {
     to: "/home",
     displayLabel: "Home",
-  },
-  {
-    to: "/home",
-    displayLabel: "Dashboard",
   },
   {
     to: "/my-cart",
@@ -22,16 +19,26 @@ const MENU_ITEMS = [
   },
 ];
 function ShoppingHeader() {
+  const { pathname } = useLocation();
+  const [defaultPath, setDefaultPath] = useState();
   const navigate = useNavigate();
   const onMenuClick = (menuItem) => {
     navigate(menuItem.to);
   };
+
+  useEffect(() => {
+    const path = MENU_ITEMS.find(
+      (menuItem) => menuItem.to === pathname
+    )?.displayLabel;
+    setDefaultPath(path);
+  }, [pathname]);
+
   return (
     <Header>
-      <Link to="/home">
+      <NavLink to="/home">
         <Logo />
-      </Link>
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["Home"]}>
+      </NavLink>
+      <Menu theme="dark" mode="horizontal" selectedKeys={[defaultPath]}>
         {MENU_ITEMS.map((item) => {
           return (
             <Menu.Item
