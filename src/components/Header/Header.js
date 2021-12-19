@@ -18,12 +18,17 @@ const MENU_ITEMS = [
     displayLabel: "Register/Login",
   },
 ];
-function ShoppingHeader() {
+function ShoppingHeader({ isSignedIn, setSignedIn }) {
   const { pathname } = useLocation();
   const [defaultPath, setDefaultPath] = useState();
   const navigate = useNavigate();
   const onMenuClick = (menuItem) => {
     navigate(menuItem.to);
+  };
+
+  const onLogout = () => {
+    setSignedIn(false);
+    navigate("/sign-in");
   };
 
   useEffect(() => {
@@ -49,6 +54,11 @@ function ShoppingHeader() {
             </Menu.Item>
           );
         })}
+        {isSignedIn && (
+          <Menu.Item key="logout" onClick={onLogout}>
+            Logout
+          </Menu.Item>
+        )}
       </Menu>
     </Header>
   );
