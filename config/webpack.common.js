@@ -6,7 +6,6 @@ module.exports = {
   entry: [paths.src + "/index.js"],
   // Where files should be sent once they are bundled
   output: {
-    path: path.join(__dirname, "/dist"),
     filename: "[name].[contenthash].js",
     publicPath: "/",
     uniqueName: "shopping-app",
