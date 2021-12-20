@@ -5,6 +5,8 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 const { merge } = require("webpack-merge");
 const common = require("./webpack.common.js");
 
+const domain = process.env.PRODUCTION_DOMAIN;
+
 module.exports = merge(common, {
   mode: "production",
   devtool: false,
@@ -39,9 +41,9 @@ module.exports = merge(common, {
     new ModuleFederationPlugin({
       name: "container",
       remotes: {
-        dashboard: "dashboard@http://localhost:3001/remoteEntry.js",
-        cart: "cart@http://localhost:3002/remoteEntry.js",
-        auth: "auth@http://localhost:3003/remoteEntry.js",
+        dashboard: `dashboard@${domain}/dashboard/latest/remoteEntry.js`,
+        cart: `cart@${domain}/cart/latest/remoteEntry.js`,
+        auth: `auth@${domain}/auth/latest/remoteEntry.js`,
       },
       shared: {
         antd: "^4.17.2",
